@@ -115,20 +115,11 @@ except Exception as e:
     logger.error(f"{traceback.format_exc()}")
 ```
 
-Example execution: run and send KeyboardInterrupt
+Example execution: run and send KeyboardInterrupt at 2.9 seconds
 
 ```
 INFO:__main__:alive
 INFO:__main__:alive
 INFO:__main__:alive
-INFO:__main__:alive
-INFO:root:Traceback (most recent call last):
-  File "/tmp/ipykernel_95466/2486163020.py", line 29, in run_with_queue
-    func(*args, **kwargs)
-  File "/tmp/ipykernel_95466/2116501262.py", line 9, in execute_task
-    raise Exception("hello")
-Exception: hello
-
-INFO:__main__:alive
-INFO:__main__:Final State: exception
+INFO:__main__:Final State: KeyboardInterrupt
 ```
