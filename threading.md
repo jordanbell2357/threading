@@ -45,7 +45,7 @@ def with_heartbeat_and_timeout(
                         result_queue.put("success")
                 except Exception as e:
                     if not task_stop_event.is_set():
-                        result_queue.put(f"exception")
+                        result_queue.put("exception")
                         logging.info(f"{traceback.format_exc()}")
                 finally:
                     task_done_event.set()
@@ -76,7 +76,7 @@ def with_heartbeat_and_timeout(
             except KeyboardInterrupt:
                 result_queue.put("KeyboardInterrupt")
             except Exception as e:
-                result_queue.put(f"exception")
+                result_queue.put("exception")
                 logging.info(f"{traceback.format_exc()}")
             finally:
                 heartbeat_event.set()
@@ -111,8 +111,8 @@ execute_task_with_timeout = with_heartbeat_and_timeout(
 try:
     execute_task_with_timeout()
 except Exception as e:
-    # logger.error(f"outer exception {traceback.format_exc()}")
-    logger.error(f"outer exception")
+    logger.error("outer exception")
+    logger.error(f"{traceback.format_exc()}")
 ```
 
 Example execution: run and send KeyboardInterrupt
