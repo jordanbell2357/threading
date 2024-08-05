@@ -5,10 +5,8 @@ https://docs.python.org/3/library/threading.html
 ```python
 import time
 
-def execute_task():
-    duration = 4
-    time.sleep(duration)
-    raise Exception("hello")
+def execute_task(x):
+    time.sleep(x)
 ```
 
 ```python
@@ -72,7 +70,7 @@ def with_heartbeat_and_timeout(
                         task_stop_event.set()
                         result_queue.put("timeout")
                         break
-                    task_done_event.wait(timeout=min(task_check_interval, max_duration - elapsed_time))               
+                    task_done_event.wait(timeout=min(task_check_interval, max_duration - elapsed_time))
             except KeyboardInterrupt:
                 result_queue.put("KeyboardInterrupt")
             except Exception as e:
@@ -101,7 +99,7 @@ def with_heartbeat_and_timeout(
 # Now we create execute_task_with_timeout by decorating execute_task
 # Customize the parameters as needed
 execute_task_with_timeout = with_heartbeat_and_timeout(
-    max_duration=5,
+    max_duration=7,
     heartbeat_interval=1.0,
     task_check_interval=0.1,
     join_timeout=0.1
@@ -109,16 +107,15 @@ execute_task_with_timeout = with_heartbeat_and_timeout(
 
 # Invoke execute_task_with_timeout
 try:
-    execute_task_with_timeout()
+    execute_task_with_timeout(x=3)
 except Exception as e:
     logger.error("outer exception")
     logger.error(f"{traceback.format_exc()}")
 ```
 
-Example execution: run and send KeyboardInterrupt at 2.9 seconds
+Example execution: run and send KeyboardInterrupt at 1.7 seconds
 
 ```
-INFO:__main__:alive
 INFO:__main__:alive
 INFO:__main__:alive
 INFO:__main__:Final State: KeyboardInterrupt
